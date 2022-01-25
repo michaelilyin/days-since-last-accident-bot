@@ -1,0 +1,32 @@
+version: "3"
+
+services:
+  dslab-service:
+    image: michaelilyin/dslab:latest
+    deploy:
+      resources:
+        reservations:
+          cpus: 0.05
+          memory: 64m
+        limits:
+          cpus: 0.1
+          memory: 128m
+      labels:
+        - traefik.enable=true
+        - traefik.docker.network=traefik-public
+        - traefik.http.routers.dslab.entrypoints=websecure
+        - traefik.http.routers.dslab.rule=Host(`dslab.cloud.ilyin.online`)
+        - traefik.http.routers.dslab.tls=true
+        - traefik.http.routers.dslab.tls.certresolver=lets-encrypt
+        - traefik.http.services.dslab.loadbalancer.server.port=8080
+        - prometheus-job=dslab-service
+        - 'prometheus-metrics-path=/q/metrics'
+    networks:
+      - traefik-public
+      - metrics-internal
+
+networks:
+  traefik-public:
+    external: true
+  metrics-internal:
+    external: true
