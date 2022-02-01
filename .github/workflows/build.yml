@@ -22,6 +22,18 @@ jobs:
         with:
           arguments: testNative build -Dquarkus.package.type=native -Dquarkus.native.container-build=true
 
+      - name: Publish Unit Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v1
+        if: always()
+        with:
+          files: build/test-results/test/**/*.xml
+
+      - name: Publish Native Unit Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v1
+        if: always()
+        with:
+          files: build/test-results/testNative/**/*.xml
+
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
