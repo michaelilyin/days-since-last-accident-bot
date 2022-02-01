@@ -1,4 +1,4 @@
-package ilyin.logging
+package net.dslab.common
 
 import mu.KLogger
 import mu.KotlinLogging

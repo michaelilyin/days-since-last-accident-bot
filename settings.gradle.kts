@@ -10,4 +10,5 @@ pluginManagement {
         id(quarkusPluginId) version quarkusPluginVersion
     }
 }
+
 rootProject.name="days-since-last-accident-bot"

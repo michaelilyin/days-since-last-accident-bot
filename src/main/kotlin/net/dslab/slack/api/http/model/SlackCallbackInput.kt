@@ -1,6 +1,6 @@
-package ilyin.slack.inbound.dto
+package net.dslab.slack.api.http.model
 
-import ilyin.slack.model.SlackCallbackType
+import net.dslab.slack.model.SlackCallbackType
 
 class SlackCallbackInput(
     val type: SlackCallbackType

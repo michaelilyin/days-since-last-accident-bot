@@ -1,0 +1,11 @@
+greeting:
+  message: "hello"
+
+
+
+quarkus:
+  micrometer:
+    binder:
+      http-server:
+        max-uri-tags: 250
+    binder-enabled-default: true

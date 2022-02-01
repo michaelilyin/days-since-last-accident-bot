@@ -52,6 +52,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: .
+          file: {context}/src/main/docker/Dockerfile.native
           push: true
           tags: michaelilyin/dslab:latest
 

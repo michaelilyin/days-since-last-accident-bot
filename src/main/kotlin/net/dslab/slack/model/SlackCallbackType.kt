@@ -1,4 +1,4 @@
-package ilyin.slack.model
+package net.dslab.slack.model
 
 enum class SlackCallbackType {
     EVENT_CALLBACK,

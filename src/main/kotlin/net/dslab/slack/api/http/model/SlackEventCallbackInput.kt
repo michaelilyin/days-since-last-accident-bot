@@ -1,4 +1,4 @@
-package ilyin.slack.inbound.dto
+package net.dslab.slack.api.http.model
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import java.time.Instant
