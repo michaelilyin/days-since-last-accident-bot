@@ -26,7 +26,7 @@ jobs:
         uses: gradle/gradle-build-action@4137be6a8bf7d7133955359dbd952c0ca73b1021
         with:
 #          arguments: build -Dquarkus.package.type=native -Dquarkus.native.container-build=true
-          arguments: build -Dquarkus.package.type=uber-jar
+          arguments: build -Dquarkus.package.type=jar
 
       - name: Publish Unit Test Results
         uses: EnricoMi/publish-unit-test-result-action@v1
