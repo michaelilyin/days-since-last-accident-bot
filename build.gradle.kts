@@ -3,6 +3,7 @@ plugins {
     kotlin("jvm") version "1.5.31"
     kotlin("kapt") version "1.5.31"
     kotlin("plugin.allopen") version "1.5.31"
+    id("org.jetbrains.kotlinx.kover") version "0.5.0"
 }
 
 val quarkusPlatformGroupId: String by project
