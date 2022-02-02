@@ -31,13 +31,7 @@ jobs:
         uses: EnricoMi/publish-unit-test-result-action@v1
         if: always()
         with:
-          files: build/test-results/test/**/*.xml
-
-      - name: Publish Native Unit Test Results
-        uses: EnricoMi/publish-unit-test-result-action@v1
-        if: always()
-        with:
-          files: build/test-results/testNative/**/*.xml
+          files: build/test-results/**/*.xml
 
       - name: Upload artifact
         uses: actions/upload-artifact@v2
@@ -69,7 +63,8 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: "{{defaultContext}}"
-          file: "{context}/src/main/docker/Dockerfile.native"
+#          file: "{context}/src/main/docker/Dockerfile.native"
+          file: "{context}/src/main/docker/Dockerfile.jvm"
           push: true
           tags: michaelilyin/dslab:latest
 
