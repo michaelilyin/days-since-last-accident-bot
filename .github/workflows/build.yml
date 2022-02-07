@@ -20,7 +20,7 @@ jobs:
       - name: Test with Gradle
         uses: gradle/gradle-build-action@4137be6a8bf7d7133955359dbd952c0ca73b1021
         with:
-          arguments: test
+          arguments: check -Dquarkus.package.type=jar
 
       - name: Build with Gradle
         uses: gradle/gradle-build-action@4137be6a8bf7d7133955359dbd952c0ca73b1021
@@ -42,6 +42,14 @@ jobs:
             build/quarkus-app
             build/*-runner
             build/quarkus-artifact.properties
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: dist
+          path: |
+            build/reports/kover
+
   publish:
     runs-on: ubuntu-latest
     needs:
@@ -83,9 +91,14 @@ jobs:
           ssh_private_key: ${{ secrets.DOCKER_SSH_PRIVATE_KEY }}
           ssh_public_key: ${{ secrets.DOCKER_SSH_PUBLIC_KEY }}
           deployment_mode: docker-swarm
-          copy_stack_file: true
-          deploy_path: /root/apps/dslab
           stack_file_name: docker-stack.yaml
-          keep_files: 5
           args: dslab
-          pull_images_first: true
+#          remote_docker_host: root@cloud.ilyin.online
+#          ssh_private_key: ${{ secrets.DOCKER_SSH_PRIVATE_KEY }}
+#          ssh_public_key: ${{ secrets.DOCKER_SSH_PUBLIC_KEY }}
+#          deployment_mode: docker-swarm
+#          copy_stack_file: true
+#          deploy_path: /root/apps/dslab
+#          stack_file_name: docker-stack.yaml
+#          keep_files: 5
+#          args: dslab

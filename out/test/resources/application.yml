@@ -1,0 +1,3 @@
+slack:
+  verification:
+    secret: test-secret

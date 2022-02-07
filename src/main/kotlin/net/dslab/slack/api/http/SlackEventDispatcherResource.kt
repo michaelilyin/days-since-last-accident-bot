@@ -3,6 +3,7 @@ package net.dslab.slack.api.http
 import com.fasterxml.jackson.databind.ObjectMapper
 import net.dslab.slack.model.SlackCallbackType
 import mu.KLogger
+import net.dslab.slack.api.http.filter.verification.VerifySlackRequests
 import net.dslab.slack.api.http.model.SlackChallengeOutput
 import net.dslab.slack.api.http.model.SlackCallbackInput
 import net.dslab.slack.api.http.model.SlackChallengeInput
@@ -27,7 +28,7 @@ class SlackEventDispatcherResource @Inject constructor(
 
     @POST
     @Path("event")
-//    @VerifySlackRequests
+    @VerifySlackRequests
     fun event(event: SlackCallbackInput): Response {
         logger.info { "Received slack event $event" }
 
