@@ -26,7 +26,6 @@ services:
       SLACK_AUTH_CLIENT_ID: "${SLACK_AUTH_CLIENT_ID}"
       SLACK_AUTH_CLIENT_SECRET: "${SLACK_AUTH_CLIENT_SECRET}"
       SLACK_AUTH_REDIRECT_URI: "${SLACK_AUTH_REDIRECT_URI}"
-
     networks:
       - traefik-public
       - metrics-internal

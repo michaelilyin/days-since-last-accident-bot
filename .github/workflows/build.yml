@@ -87,6 +87,11 @@ jobs:
       - uses: actions/checkout@v2
       - name: Deploy to Docker Swarm
         uses: michaelilyin/docker-deployment-action@master
+        env:
+          SLACK_VERIFICATION_SECRET: ${{ secrets.SLACK_VERIFICATION_SECRET }}
+          SLACK_AUTH_CLIENT_ID: ${{ secrets.SLACK_AUTH_CLIENT_ID }}
+          SLACK_AUTH_CLIENT_SECRET: ${{ secrets.SLACK_AUTH_CLIENT_SECRET }}
+          SLACK_AUTH_REDIRECT_URI: ${{ secrets.SLACK_AUTH_REDIRECT_URI }}
         with:
           remote_docker_host: root@cloud.ilyin.online
           ssh_private_key: ${{ secrets.DOCKER_SSH_PRIVATE_KEY }}
