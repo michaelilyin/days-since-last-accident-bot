@@ -85,6 +85,10 @@ jobs:
       - publish
     steps:
       - uses: actions/checkout@v2
+      - name: Test
+        env:
+          SLACK_AUTH_REDIRECT_URI: ${{ secrets.SLACK_AUTH_REDIRECT_URI }}
+        run: echo "TEEEEST $SLACK_AUTH_REDIRECT_URI"
       - name: Deploy to Docker Swarm
         uses: michaelilyin/docker-deployment-action@master
         env:
