@@ -21,6 +21,12 @@ services:
         - traefik.http.services.dslab.loadbalancer.server.port=8080
         - prometheus-job=dslab-service
         - 'prometheus-metrics-path=/q/metrics'
+    environment:
+      SLACK_VERIFICATION_SECRET: "${SLACK_VERIFICATION_SECRET}"
+      SLACK_AUTH_CLIENT_ID: "${SLACK_AUTH_CLIENT_ID}"
+      SLACK_AUTH_CLIENT_SECRET: "${SLACK_AUTH_CLIENT_SECRET}"
+      SLACK_AUTH_REDIRECT_URI: "${SLACK_AUTH_REDIRECT_URI}"
+
     networks:
       - traefik-public
       - metrics-internal
