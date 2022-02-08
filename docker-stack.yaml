@@ -7,10 +7,10 @@ services:
       resources:
         reservations:
           cpus: '0.1'
-          memory: 64m
+          memory: 100m
         limits:
           cpus: '0.5'
-          memory: 128m
+          memory: 300m
       labels:
         - traefik.enable=true
         - traefik.docker.network=traefik-public
