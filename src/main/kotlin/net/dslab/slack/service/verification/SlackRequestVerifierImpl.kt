@@ -23,7 +23,8 @@ internal class SlackRequestVerifierImpl @Inject constructor(
         val actualSignature = "v0=${Hex.encodeHexString(hashedBytes)}"
 
         if (signature != actualSignature) {
-            logger.error { "Actual signature $actualSignature but $signature was provided" }
+            // TODO: in dev mode log actual signature
+            logger.error { "Actual signature [---] but $signature was provided" }
             throw SlackVerificationException(actualSignature, signature)
         }
     }

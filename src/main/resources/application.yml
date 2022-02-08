@@ -9,10 +9,10 @@ quarkus:
       exclude-pattern: \/q\/.*
       enabled: true
   log:
-    level: TRACE
+    level: INFO
     category:
       "org.apache.http":
-        level: DEBUG
+        level: INFO
   micrometer:
     binder:
       http-server:
