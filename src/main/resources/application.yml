@@ -6,8 +6,10 @@ greeting:
 quarkus:
   http:
     access-log:
+      exclude-pattern: \/q\/.*
       enabled: true
   log:
+    level: TRACE
     category:
       "org.apache.http":
         level: DEBUG
