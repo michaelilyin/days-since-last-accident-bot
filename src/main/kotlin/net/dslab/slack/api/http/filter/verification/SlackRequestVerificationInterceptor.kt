@@ -17,15 +17,20 @@ import javax.ws.rs.ext.ReaderInterceptorContext
 class SlackRequestVerificationInterceptor : ReaderInterceptor {
 
     @Context
-    private lateinit var uriInfo: UriInfo
+    internal lateinit var uriInfo: UriInfo
 
     @Context
-    private lateinit var request: HttpServerRequest
+    internal lateinit var request: HttpServerRequest
 
     @Inject
-    private lateinit var slackRequestVerifier: SlackRequestVerifier
+    internal lateinit var slackRequestVerifier: SlackRequestVerifier
+
+    @Inject
+    internal lateinit var logger: KLogger
 
     override fun aroundReadFrom(context: ReaderInterceptorContext): Any {
+        logger.info { "Verify Slack request" }
+
         val signatureHeader = context.headers.getFirst("X-Slack-Signature")
             ?: throw BotException("Required verification header has not been provided")
         val timestampHeader = context.headers.getFirst("X-Slack-Request-Timestamp")
