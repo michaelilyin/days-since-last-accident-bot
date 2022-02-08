@@ -4,6 +4,13 @@ greeting:
 
 
 quarkus:
+  http:
+    access-log:
+      enabled: true
+  log:
+    category:
+      "org.apache.http":
+        level: DEBUG
   micrometer:
     binder:
       http-server:
