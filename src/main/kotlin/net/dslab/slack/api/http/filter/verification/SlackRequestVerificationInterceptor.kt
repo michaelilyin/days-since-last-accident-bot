@@ -29,7 +29,7 @@ class SlackRequestVerificationInterceptor : ReaderInterceptor {
     internal lateinit var logger: KLogger
 
     override fun aroundReadFrom(context: ReaderInterceptorContext): Any {
-        logger.info { "Verify Slack request" }
+        logger.info { "Verify Slack request for ${request.method()}:${request.absoluteURI()}" }
 
         val signatureHeader = context.headers.getFirst("X-Slack-Signature")
             ?: throw BotException("Required verification header has not been provided")
@@ -40,6 +40,8 @@ class SlackRequestVerificationInterceptor : ReaderInterceptor {
         val headerBytes = "v0:$timestampHeader:".toByteArray()
 
         slackRequestVerifier.verify(headerBytes + bodyBytes, signatureHeader)
+
+        logger.info { "Slack request verified" }
 
         context.inputStream = bodyBytes.inputStream()
         return context.proceed()
