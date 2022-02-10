@@ -35,9 +35,9 @@ class SlackCommandResource @Inject constructor(
 
     @POST
     @Path("interactive")
-    @Consumes(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.WILDCARD)
     @VerifySlackRequests
-    fun interactive(data: Map<String, Any>) {
+    fun interactive(data: String) {
         logger.debug { "Received json $data" }
     }
 }
