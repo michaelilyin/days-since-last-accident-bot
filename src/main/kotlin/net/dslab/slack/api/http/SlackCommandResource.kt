@@ -3,6 +3,7 @@ package net.dslab.slack.api.http
 import com.fasterxml.jackson.databind.ObjectMapper
 import mu.KLogger
 import net.dslab.slack.api.http.filter.verification.VerifySlackRequests
+import net.dslab.slack.api.http.model.SlackInteractiveCommandInput
 import net.dslab.slack.api.http.model.SlashCommandInput
 import net.dslab.slack.service.command.SlackCommandExecutionService
 import javax.enterprise.context.ApplicationScoped
@@ -35,9 +36,13 @@ class SlackCommandResource @Inject constructor(
 
     @POST
     @Path("interactive")
-    @Consumes(MediaType.WILDCARD)
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @VerifySlackRequests
-    fun interactive(data: String) {
-        logger.debug { "Received json $data" }
+    fun interactive(form: Form) {
+        val map = form.asMap()
+        logger.debug { "Received form $map" }
+
+        val interactiveCommand = objectMapper.convertValue(map, SlackInteractiveCommandInput::class.java)
+        logger.debug { "Received command $interactiveCommand" }
     }
 }
