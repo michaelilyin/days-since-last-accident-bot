@@ -30,7 +30,7 @@ class SlackEventDispatcherResource @Inject constructor(
     @Path("event")
     @VerifySlackRequests
     fun event(event: SlackCallbackInput): Response {
-        logger.info { "Received slack event $event" }
+        logger.debug { "Received slack event $event" }
 
         return when (event.type) {
             SlackCallbackType.URL_VERIFICATION -> handleChallenge(event)
@@ -40,7 +40,8 @@ class SlackEventDispatcherResource @Inject constructor(
 
     private fun handleEventCallback(valueMap: Map<*, *>): Response {
         val callback = objectMapper.convertValue(valueMap, SlackEventCallbackInput::class.java)
-        logger.info { "Received message ${callback.token} ${callback.eventTime} ${callback.event}" }
+        logger.debug { "Received message ${callback.token} ${callback.eventTime} ${callback.event}" }
+
         return Response.ok().build()
     }
 

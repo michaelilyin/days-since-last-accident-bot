@@ -24,6 +24,7 @@ class EnableTrackingCommand @Inject constructor(
         val chat = chatService.getChatInfo(input.teamId, input.chatId)
 
         if (chat == null) {
+            // TODO: probably private channel, offer user to add bot at first
             logger.info { "[Chat ${input.chatId}] was not found in [Team ${input.teamId}]" }
             resultBuilder.plainText("Chat ${input.chatId} haven't been found")
             return

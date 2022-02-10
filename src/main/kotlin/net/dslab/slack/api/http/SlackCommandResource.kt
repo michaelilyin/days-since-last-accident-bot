@@ -15,7 +15,7 @@ import javax.ws.rs.core.MediaType
 
 @Path("slack")
 @ApplicationScoped
-class SlackSlashCommandResource @Inject constructor(
+class SlackCommandResource @Inject constructor(
     private val logger: KLogger,
     private val objectMapper: ObjectMapper,
     private val slackCommandExecutionService: SlackCommandExecutionService
@@ -26,10 +26,18 @@ class SlackSlashCommandResource @Inject constructor(
     @VerifySlackRequests
     fun slash(form: Form): String {
         val map = form.asMap()
-        logger.info { "Received form $map" }
+        logger.debug { "Received form $map" }
         val slackCommand = objectMapper.convertValue(map, SlashCommandInput::class.java)
-        logger.info { "Received command $slackCommand" }
+        logger.debug { "Received command $slackCommand" }
 
         return slackCommandExecutionService.run(slackCommand)
+    }
+
+    @POST
+    @Path("interactive")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @VerifySlackRequests
+    fun interactive(data: Map<String, Any>) {
+        logger.debug { "Received json $data" }
     }
 }

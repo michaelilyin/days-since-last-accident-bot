@@ -13,6 +13,7 @@ quarkus:
     category:
       "org.apache.http":
         level: INFO
+      "net.dslab.slack.api.http": DEBUG
   micrometer:
     binder:
       http-server:

@@ -4,18 +4,15 @@ import io.quarkus.test.common.http.TestHTTPEndpoint
 import io.quarkus.test.junit.QuarkusTest
 import io.quarkus.test.junit.mockito.InjectMock
 import io.restassured.RestAssured
-import net.dslab.slack.api.http.filter.verification.SlackRequestVerificationInterceptor
-import net.dslab.slack.api.http.filter.verification.VerifySlackRequests
 import net.dslab.slack.service.command.SlackCommandExecutionService
 import net.dslab.slack.service.verification.SlackRequestVerifier
-import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.mockito.BDDMockito
 import org.mockito.kotlin.argThat
 
 @QuarkusTest
-@TestHTTPEndpoint(SlackSlashCommandResource::class)
-internal class SlackSlashCommandResourceTest {
+@TestHTTPEndpoint(SlackCommandResource::class)
+internal class SlackCommandResourceTest {
     @InjectMock
     private lateinit var slackCommandExecutionService: SlackCommandExecutionService
 
