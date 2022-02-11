@@ -1,7 +1,10 @@
 package net.dslab.core.command
 
+import io.quarkus.arc.Priority
+import io.quarkus.test.Mock
 import io.quarkus.test.junit.QuarkusTest
 import io.quarkus.test.junit.mockito.InjectMock
+import io.quarkus.test.junit.mockito.InjectSpy
 import net.dslab.common.exception.BotException
 import net.dslab.core.command.context.CommandExecutionContext
 import net.dslab.core.command.exception.CommandExecutionException
@@ -15,12 +18,14 @@ import org.mockito.kotlin.any
 import org.mockito.kotlin.eq
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.never
+import javax.enterprise.context.ApplicationScoped
+import javax.enterprise.inject.Alternative
 import javax.inject.Inject
 
 @QuarkusTest
 internal class CommandExecutionServiceImplTest {
 
-    @InjectMock
+    @InjectSpy
     internal lateinit var command: Command
 
     @Inject
@@ -50,6 +55,17 @@ internal class CommandExecutionServiceImplTest {
 
         assertThrows<CommandExecutionException> {
             commandExecutionService.run(input, builder)
+        }
+    }
+
+    @Mock
+    @ApplicationScoped
+    internal class CommandMock : Command {
+        override fun run(
+            context: CommandExecutionContext,
+            resultBuilder: MessageBuilder<*>,
+            next: CommandChain
+        ) {
         }
     }
 }
