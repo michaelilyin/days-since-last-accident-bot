@@ -1,16 +1,20 @@
 package net.dslab.slack.service.command
 
+import com.slack.api.model.Message
 import io.quarkus.test.junit.QuarkusTest
 import io.quarkus.test.junit.mockito.InjectMock
 import net.dslab.core.command.CommandExecutionService
-import net.dslab.core.command.model.CommandExecutionInput
-import net.dslab.core.command.model.CommandType
+import net.dslab.core.command.context.CommandExecutionContext
 import net.dslab.core.command.model.KnownCommandType
 import net.dslab.slack.api.http.model.SlashCommandInput
-import org.junit.jupiter.api.Assertions.*
-
+import net.dslab.slack.service.message.builder.SlackMessageBuilder
+import net.dslab.slack.service.message.builder.SlackMessageBuilderFactory
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.mockito.BDDMockito
+import org.mockito.kotlin.argThat
+import org.mockito.kotlin.eq
+import org.mockito.kotlin.mock
 import java.net.URI
 import javax.inject.Inject
 
@@ -21,7 +25,7 @@ internal class SlackCommandExecutionServiceImplTest {
     private lateinit var commandExecutionService: CommandExecutionService
 
     @InjectMock
-    private lateinit var slackCommandResultBuilderFactory: SlackCommandResultBuilderFactory
+    private lateinit var slackMessageBuilderFactory: SlackMessageBuilderFactory
 
     @Inject
     private lateinit var slackCommandExecutionService: SlackCommandExecutionService
@@ -44,22 +48,22 @@ internal class SlackCommandExecutionServiceImplTest {
             triggerId = "trigger",
             appId = null
         )
-        val commonCommand = CommandExecutionInput(
-            type = KnownCommandType.ENABLE_TRACKING,
-            teamId = "team",
-            chatId = "channel-id"
-        )
 
-        val builderMock = BDDMockito.mock(SlackCommandResultBuilder::class.java)
-        BDDMockito.given(slackCommandResultBuilderFactory.builder())
+        val builderMock = BDDMockito.mock(SlackMessageBuilder::class.java)
+        val messageMock = BDDMockito.mock(Message::class.java)
+        BDDMockito.given(slackMessageBuilderFactory.builder())
             .willReturn(builderMock)
         BDDMockito.given(builderMock.build())
-            .willReturn("test-result")
+            .willReturn(messageMock)
 
         val res = slackCommandExecutionService.run(command)
 
-        assertEquals("test-result", res)
+        assertEquals(messageMock, res)
         BDDMockito.verify(commandExecutionService)
-            .run(commonCommand, builderMock)
+            .run(argThat {
+                type == KnownCommandType.ENABLE_TRACKING
+                        && chatId == command.channelId
+                        && teamId == command.teamId
+            }, eq(builderMock))
     }
 }

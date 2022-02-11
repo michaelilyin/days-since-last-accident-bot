@@ -2,8 +2,9 @@ package net.dslab.core.command.commands
 
 import io.quarkus.test.junit.QuarkusTest
 import io.quarkus.test.junit.mockito.InjectMock
-import net.dslab.core.command.CommandResultBuilder
-import net.dslab.core.command.model.CommandExecutionInput
+import net.dslab.core.command.CommandChain
+import net.dslab.core.message.builder.MessageBuilder
+import net.dslab.core.command.context.CommandExecutionContext
 import net.dslab.core.command.model.KnownCommandType
 import net.dslab.core.command.model.UnknownCommandType
 import net.dslab.core.command.vendor.ChatService
@@ -12,6 +13,7 @@ import org.junit.jupiter.api.Assertions.*
 
 import org.junit.jupiter.api.Test
 import org.mockito.BDDMockito
+import org.mockito.BDDMockito.willReturn
 import org.mockito.kotlin.any
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.never
@@ -27,64 +29,74 @@ internal class EnableTrackingCommandTest {
     internal lateinit var enableTrackingCommand: EnableTrackingCommand
 
     @Test
-    internal fun supportsOK() {
-        val res = enableTrackingCommand.supports(KnownCommandType.ENABLE_TRACKING)
-
-        assertTrue(res)
-    }
-
-    @Test
-    internal fun supportsNoK() {
-        val res = enableTrackingCommand.supports(UnknownCommandType("any"))
-
-        assertFalse(res)
-    }
-
-    @Test
     internal fun runOK() {
-        val input = CommandExecutionInput(KnownCommandType.ENABLE_TRACKING, "team-id", "chat-id")
-        val builder = mock<CommandResultBuilder<*>> { }
-        val chatInfo = mock<ChatInfo> {
-            on { member }.thenReturn(true)
-            on { id }.thenReturn(input.chatId)
+        val teamId = "team-id"
+        val chatId = "chat-id"
+        val input = mock<CommandExecutionContext> {
+            on { it.type }.thenReturn(KnownCommandType.ENABLE_TRACKING)
+            on { it.chatId }.thenReturn(chatId)
+            on { it.teamId }.thenReturn(teamId)
         }
-        BDDMockito.given(chatService.getChatInfo(input.teamId, input.chatId))
+        val builder = mock<MessageBuilder<*>> { }
+        val chatInfo = mock<ChatInfo> {
+            on { it.member }.thenReturn(true)
+            on { it.id }.thenReturn(chatId)
+        }
+        val chain = mock<CommandChain> {  }
+        BDDMockito.given(chatService.getChatInfo(teamId, chatId))
             .willReturn(chatInfo)
 
-        enableTrackingCommand.run(input, builder)
+        enableTrackingCommand.run(input, builder, chain)
 
-        BDDMockito.verify(builder).plainText("Success")
+        BDDMockito.verify(builder).paragraph(any())
         BDDMockito.verify(chatService, never()).join(any(), any())
         BDDMockito.verifyNoMoreInteractions(builder)
+        BDDMockito.verify(chain, never()).run(input, builder)
     }
 
     @Test
     internal fun runNoChat() {
-        val input = CommandExecutionInput(KnownCommandType.ENABLE_TRACKING, "team-id", "chat-id")
-        val builder = mock<CommandResultBuilder<*>> { }
+        val teamId = "team-id"
+        val chatId = "chat-id"
+        val input = mock<CommandExecutionContext> {
+            on { it.type }.thenReturn(KnownCommandType.ENABLE_TRACKING)
+            on { it.chatId }.thenReturn(chatId)
+            on { it.teamId }.thenReturn(teamId)
+        }
+        val chain = mock<CommandChain> {  }
+        val builder = mock<MessageBuilder<*>> { }
 
-        enableTrackingCommand.run(input, builder)
+        enableTrackingCommand.run(input, builder, chain)
 
-        BDDMockito.verify(builder).plainText("Chat ${input.chatId} haven't been found")
+        BDDMockito.verify(builder).paragraph(any())
         BDDMockito.verify(chatService, never()).join(any(), any())
         BDDMockito.verifyNoMoreInteractions(builder)
+        BDDMockito.verify(chain, never()).run(input, builder)
     }
 
     @Test
     internal fun runIsNotAMemberOK() {
-        val input = CommandExecutionInput(KnownCommandType.ENABLE_TRACKING, "team-id", "chat-id")
-        val builder = mock<CommandResultBuilder<*>> { }
-        val chatInfo = mock<ChatInfo> {
-            on { member }.thenReturn(false)
-            on { id }.thenReturn(input.chatId)
+        val teamId = "team-id"
+        val chatId = "chat-id"
+        val input = mock<CommandExecutionContext> {
+            on { it.type }.thenReturn(KnownCommandType.ENABLE_TRACKING)
+            on { it.chatId }.thenReturn(chatId)
+            on { it.teamId }.thenReturn(teamId)
         }
-        BDDMockito.given(chatService.getChatInfo(input.teamId, input.chatId))
+        val builder = mock<MessageBuilder<*>> { }
+        val chatInfo = mock<ChatInfo> {
+            on { it.member }.thenReturn(false)
+            on { it.id }.thenReturn(chatId)
+        }
+        val chain = mock<CommandChain> {  }
+        BDDMockito.given(chatService.getChatInfo(teamId, chatId))
             .willReturn(chatInfo)
 
-        enableTrackingCommand.run(input, builder)
+        enableTrackingCommand.run(input, builder, chain)
 
-        BDDMockito.verify(chatService).join(input.teamId, input.chatId)
-        BDDMockito.verify(builder).plainText("Success")
+        BDDMockito.verify(chatService).join(teamId, chatId)
+        BDDMockito.verify(builder).paragraph(any())
         BDDMockito.verifyNoMoreInteractions(builder)
+        BDDMockito.verify(chain, never()).run(input, builder)
     }
 }

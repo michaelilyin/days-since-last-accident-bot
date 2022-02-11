@@ -1,0 +1,18 @@
+{
+  "type": "shortcut",
+  "token": "token-value",
+  "action_ts": "1644485083.581171",
+  "team": {
+    "id": "team-id",
+    "domain": "team-domain"
+  },
+  "user": {
+    "id": "user-id",
+    "username": "username",
+    "team_id": "team-id"
+  },
+  "is_enterprise_install": false,
+  "enterprise": null,
+  "callback_id": "add_keyword",
+  "trigger_id": "trigger-id-value"
+}

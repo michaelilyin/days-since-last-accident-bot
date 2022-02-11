@@ -1,21 +1,33 @@
 package net.dslab.slack.service.command
 
+import com.slack.api.model.Message
 import net.dslab.core.command.CommandExecutionService
+import net.dslab.slack.api.http.model.SlackInteractiveCommandInput
 import net.dslab.slack.api.http.model.SlashCommandInput
+import net.dslab.slack.service.message.builder.SlackMessageBuilderFactory
 import javax.enterprise.context.ApplicationScoped
 import javax.inject.Inject
 
 @ApplicationScoped
 internal class SlackCommandExecutionServiceImpl @Inject constructor(
     private val commandExecutionService: CommandExecutionService,
-    private val slackCommandResultBuilderFactory: SlackCommandResultBuilderFactory
+    private val slackMessageBuilderFactory: SlackMessageBuilderFactory
 ) : SlackCommandExecutionService {
 
-    override fun run(slackCommand: SlashCommandInput): String {
-        val command = slackCommand.toServiceInput()
-        val builder = slackCommandResultBuilderFactory.builder()
+    override fun run(slackCommand: SlashCommandInput): Message {
+        val builder = slackMessageBuilderFactory.builder()
+        val context = RawSlackSlashCommandContext(slackCommand)
 
-        commandExecutionService.run(command, builder)
+        commandExecutionService.run(context, builder)
+
+        return builder.build()
+    }
+
+    override fun run(slackInteractiveCommand: SlackInteractiveCommandInput): Message {
+        val builder = slackMessageBuilderFactory.builder()
+        val context = RawSlackInteractiveCommandContext(slackInteractiveCommand)
+
+        commandExecutionService.run(context, builder)
 
         return builder.build()
     }

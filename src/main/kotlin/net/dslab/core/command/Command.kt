@@ -1,10 +1,8 @@
 package net.dslab.core.command
 
-import net.dslab.core.command.model.CommandExecutionInput
-import net.dslab.core.command.model.CommandType
+import net.dslab.core.command.context.CommandExecutionContext
+import net.dslab.core.message.builder.MessageBuilder
 
 interface Command {
-    fun supports(type: CommandType): Boolean
-
-    fun run(input: CommandExecutionInput, resultBuilder: CommandResultBuilder<*>)
+    fun run(context: CommandExecutionContext, resultBuilder: MessageBuilder<*>, next: CommandChain)
 }

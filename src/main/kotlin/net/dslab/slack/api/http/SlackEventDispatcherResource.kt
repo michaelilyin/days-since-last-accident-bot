@@ -8,6 +8,7 @@ import net.dslab.slack.api.http.model.SlackChallengeOutput
 import net.dslab.slack.api.http.model.SlackCallbackInput
 import net.dslab.slack.api.http.model.SlackChallengeInput
 import net.dslab.slack.api.http.model.SlackEventCallbackInput
+import net.dslab.slack.model.KnownSlackCallbackType
 import javax.enterprise.context.ApplicationScoped
 import javax.inject.Inject
 import javax.ws.rs.Consumes
@@ -33,8 +34,12 @@ class SlackEventDispatcherResource @Inject constructor(
         logger.debug { "Received slack event $event" }
 
         return when (event.type) {
-            SlackCallbackType.URL_VERIFICATION -> handleChallenge(event)
-            SlackCallbackType.EVENT_CALLBACK -> handleEventCallback(event)
+            KnownSlackCallbackType.URL_VERIFICATION -> handleChallenge(event)
+            KnownSlackCallbackType.EVENT_CALLBACK -> handleEventCallback(event)
+            else -> {
+                logger.warn { "Unknown callback type ${event.type}" }
+                return Response.status(400).build()
+            }
         }
     }
 

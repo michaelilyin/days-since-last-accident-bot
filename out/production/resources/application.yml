@@ -4,6 +4,17 @@ greeting:
 
 
 quarkus:
+  http:
+    access-log:
+      exclude-pattern: \/q\/.*
+      enabled: true
+  log:
+    level: INFO
+    category:
+      "org.apache.http":
+        level: INFO
+      "net.dslab.slack.api.http":
+        level: DEBUG
   micrometer:
     binder:
       http-server:

@@ -22,3 +22,7 @@ fun Any.firebaseResource(path: String): InputStream {
 fun InputStream.json(): Map<String, Any> {
     return objectMapper.readValue(this)
 }
+
+fun InputStream.text(): String {
+    return this.bufferedReader().readText()
+}

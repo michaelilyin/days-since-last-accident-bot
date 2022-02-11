@@ -4,8 +4,11 @@ import io.quarkus.test.common.http.TestHTTPEndpoint
 import io.quarkus.test.junit.QuarkusTest
 import io.quarkus.test.junit.mockito.InjectMock
 import io.restassured.RestAssured
+import net.dslab.slack.api.http.model.SlashCommandInput
 import net.dslab.slack.service.command.SlackCommandExecutionService
 import net.dslab.slack.service.verification.SlackRequestVerifier
+import net.dslab.slackHttpResource
+import net.dslab.text
 import org.junit.jupiter.api.Test
 import org.mockito.BDDMockito
 import org.mockito.kotlin.argThat
@@ -40,6 +43,18 @@ internal class SlackCommandResourceTest {
             .statusCode(204)
 
         BDDMockito.verify(slackCommandExecutionService)
-            .run(argThat { command == "/enable-days-since-counter" })
+            .run(argThat<SlashCommandInput> { command == "/enable-days-since-counter" })
+    }
+
+    @Test
+    internal fun addKeywordShortcutOK() {
+        RestAssured.given()
+            .header("X-Slack-Signature", "signatire")
+            .header("X-Slack-Request-Timestamp", "timestamp")
+            .formParam("payload", slackHttpResource("add_keyword_shortcut.json").text())
+            .post("interactive")
+            .then()
+            .statusCode(200)
+
     }
 }

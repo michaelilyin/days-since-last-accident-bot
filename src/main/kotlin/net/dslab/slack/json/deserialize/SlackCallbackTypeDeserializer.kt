@@ -9,6 +9,7 @@ class SlackCallbackTypeDeserializer :
     StdDeserializer<SlackCallbackType>(SlackCallbackType::class.java) {
     override fun deserialize(p: JsonParser, ctxt: DeserializationContext): SlackCallbackType {
         val string = p.valueAsString
-        return SlackCallbackType.valueOf(string.uppercase())
+
+        return SlackCallbackType.fromString(string)
     }
 }

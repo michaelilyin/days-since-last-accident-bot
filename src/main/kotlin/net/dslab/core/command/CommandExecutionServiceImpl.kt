@@ -1,39 +1,38 @@
 package net.dslab.core.command
 
 import mu.KLogger
-import net.dslab.common.exception.BotException
+import net.dslab.core.command.context.CommandExecutionContext
 import net.dslab.core.command.exception.CommandExecutionException
-import net.dslab.core.command.model.CommandExecutionInput
-import net.dslab.core.command.model.CommandType
-import java.util.concurrent.ConcurrentHashMap
+import net.dslab.core.message.builder.MessageBuilder
 import javax.enterprise.context.ApplicationScoped
 import javax.enterprise.inject.Instance
 import javax.inject.Inject
+import kotlin.reflect.full.findAnnotation
 
 @ApplicationScoped
 class CommandExecutionServiceImpl @Inject constructor(
-    private val commands: Instance<Command>,
+    commands: Instance<Command>,
     private val logger: KLogger
 ) : CommandExecutionService {
-    private val commandsCache = ConcurrentHashMap<CommandType, Command>()
-
-    override fun run(input: CommandExecutionInput, builder: CommandResultBuilder<*>) {
-        logger.info { "Invoking command for $input" }
-
-        val command = commandsCache.computeIfAbsent(input.type) { type ->
-            commands.find { it.supports(type) }
-                ?: throw BotException("Could not find command for $type")
+    private val chain: CommandChain = commands.asSequence()
+        .sortedBy {
+            val klass = it::class
+            val priority = klass.findAnnotation<CommandPriority>()
+                ?: throw IllegalArgumentException("${klass.simpleName} must be annotated with @CommandPriority")
+            -1 * (priority.phase.order + priority.factor)
+        }
+        .fold(LastCommandChain() as CommandChain) { acc, command ->
+            UsualCommandChain(command, acc)
         }
 
+    override fun run(input: CommandExecutionContext, builder: MessageBuilder<*>) {
+        logger.info { "Invoking command for $input" }
+
         try {
-            command.run(input, builder)
+            chain.run(input, builder)
             logger.info { "Invocation of command for $input is successful" }
         } catch (e: Exception) {
             throw CommandExecutionException(input, e)
         }
-    }
-
-    override fun invalidateCache() {
-        commandsCache.clear()
     }
 }

@@ -1,3 +1,9 @@
 slack:
+  auth:
+    token:
+      bot: bot-token
+    client-id: test-client
+    client-secret: test-secret
+    redirect-uri: http://localhost
   verification:
     secret: test-secret

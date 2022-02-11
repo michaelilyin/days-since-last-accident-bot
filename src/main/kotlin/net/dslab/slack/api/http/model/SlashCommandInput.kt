@@ -1,7 +1,7 @@
 package net.dslab.slack.api.http.model
 
 import com.fasterxml.jackson.annotation.JsonProperty
-import net.dslab.core.command.model.CommandExecutionInput
+import net.dslab.core.command.context.CommandExecutionContext
 import net.dslab.core.command.model.CommandType
 import net.dslab.core.command.model.KnownCommandType
 import net.dslab.core.command.model.UnknownCommandType
@@ -34,18 +34,4 @@ data class SlashCommandInput(
     @JsonProperty("app_id")
     val appId: String?
 ) {
-    fun toServiceInput(): CommandExecutionInput {
-        return CommandExecutionInput(
-            type = convertType(command),
-            teamId = teamId,
-            chatId = channelId
-        )
-    }
-
-    private fun convertType(command: String): CommandType {
-        return when (command) {
-            "/enable-days-since-counter" -> KnownCommandType.ENABLE_TRACKING
-            else -> UnknownCommandType(command)
-        }
-    }
 }
