@@ -1,5 +1,10 @@
 package net.dslab.slack.api.http
 
+import com.slack.api.model.Message
+import com.slack.api.model.block.LayoutBlock
+import com.slack.api.model.block.SectionBlock
+import com.slack.api.model.block.composition.PlainTextObject
+import com.slack.api.model.block.composition.TextObject
 import io.quarkus.test.common.http.TestHTTPEndpoint
 import io.quarkus.test.junit.QuarkusTest
 import io.quarkus.test.junit.mockito.InjectMock
@@ -11,6 +16,7 @@ import net.dslab.slackHttpResource
 import net.dslab.text
 import org.junit.jupiter.api.Test
 import org.mockito.BDDMockito
+import org.mockito.kotlin.any
 import org.mockito.kotlin.argThat
 
 @QuarkusTest
@@ -24,6 +30,14 @@ internal class SlackCommandResourceTest {
 
     @Test
     internal fun enableTrackingOK() {
+        val message = Message()
+        message.blocks = mutableListOf<LayoutBlock>(SectionBlock.builder()
+            .text(PlainTextObject.builder().text("test").build())
+            .build()
+        )
+        BDDMockito.given(slackCommandExecutionService.run(any<SlashCommandInput>()))
+            .willReturn(message)
+
         RestAssured
             .given()
             .header("X-Slack-Signature", "signatire")
@@ -40,7 +54,7 @@ internal class SlackCommandResourceTest {
             .formParam("trigger_id", "trigger-id-value")
             .post("slash")
             .then()
-            .statusCode(204)
+            .statusCode(200)
 
         BDDMockito.verify(slackCommandExecutionService)
             .run(argThat<SlashCommandInput> { command == "/enable-days-since-counter" })
