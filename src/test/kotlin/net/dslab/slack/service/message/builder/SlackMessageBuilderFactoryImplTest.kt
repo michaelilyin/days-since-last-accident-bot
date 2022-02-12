@@ -22,8 +22,8 @@ internal class SlackMessageBuilderFactoryImplTest {
 
         val res = builder.build()
 
-        assertNotNull(res.blocks)
-        assertEquals(1, res.blocks.size)
-        assertEquals("test", (res.blocks.first() as SectionBlock).text.text)
+        assertNotNull(res)
+        assertEquals(1, res.size)
+        assertEquals("test", (res.first() as SectionBlock).text.text)
     }
 }

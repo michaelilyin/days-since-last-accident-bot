@@ -1,10 +1,6 @@
 package net.dslab.slack.api.http.model
 
 import com.fasterxml.jackson.annotation.JsonProperty
-import net.dslab.core.command.context.CommandExecutionContext
-import net.dslab.core.command.model.CommandType
-import net.dslab.core.command.model.KnownCommandType
-import net.dslab.core.command.model.UnknownCommandType
 import java.net.URI
 
 data class SlashCommandInput(

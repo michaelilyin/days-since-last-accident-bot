@@ -1,15 +1,14 @@
 package net.dslab.slack.api.http
 
-import com.slack.api.model.Message
 import com.slack.api.model.block.LayoutBlock
 import com.slack.api.model.block.SectionBlock
 import com.slack.api.model.block.composition.PlainTextObject
-import com.slack.api.model.block.composition.TextObject
 import io.quarkus.test.common.http.TestHTTPEndpoint
 import io.quarkus.test.junit.QuarkusTest
 import io.quarkus.test.junit.mockito.InjectMock
 import io.restassured.RestAssured
 import net.dslab.slack.api.http.model.SlashCommandInput
+import net.dslab.slack.api.http.model.SlashOutput
 import net.dslab.slack.service.command.SlackCommandExecutionService
 import net.dslab.slack.service.verification.SlackRequestVerifier
 import net.dslab.slackHttpResource
@@ -30,13 +29,12 @@ internal class SlackCommandResourceTest {
 
     @Test
     internal fun enableTrackingOK() {
-        val message = Message()
-        message.blocks = mutableListOf<LayoutBlock>(SectionBlock.builder()
+        val blocks = listOf<LayoutBlock>(SectionBlock.builder()
             .text(PlainTextObject.builder().text("test").build())
             .build()
         )
         BDDMockito.given(slackCommandExecutionService.run(any<SlashCommandInput>()))
-            .willReturn(message)
+            .willReturn(SlashOutput(blocks))
 
         RestAssured
             .given()

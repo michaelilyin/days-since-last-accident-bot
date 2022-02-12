@@ -4,6 +4,7 @@ import com.slack.api.model.Message
 import net.dslab.core.command.CommandExecutionService
 import net.dslab.slack.api.http.model.SlackInteractiveCommandInput
 import net.dslab.slack.api.http.model.SlashCommandInput
+import net.dslab.slack.api.http.model.SlashOutput
 import net.dslab.slack.service.message.builder.SlackMessageBuilderFactory
 import javax.enterprise.context.ApplicationScoped
 import javax.inject.Inject
@@ -14,13 +15,14 @@ internal class SlackCommandExecutionServiceImpl @Inject constructor(
     private val slackMessageBuilderFactory: SlackMessageBuilderFactory
 ) : SlackCommandExecutionService {
 
-    override fun run(slackCommand: SlashCommandInput): Message {
+    override fun run(slackCommand: SlashCommandInput): SlashOutput {
         val builder = slackMessageBuilderFactory.builder()
         val context = RawSlackSlashCommandContext(slackCommand)
 
         commandExecutionService.run(context, builder)
 
-        return builder.build()
+        val blocks = builder.build()
+        return SlashOutput(blocks)
     }
 
     override fun run(slackInteractiveCommand: SlackInteractiveCommandInput): Message {
@@ -29,6 +31,6 @@ internal class SlackCommandExecutionServiceImpl @Inject constructor(
 
         commandExecutionService.run(context, builder)
 
-        return builder.build()
+        return Message()
     }
 }

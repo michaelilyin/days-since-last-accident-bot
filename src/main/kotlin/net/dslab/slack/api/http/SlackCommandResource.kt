@@ -8,6 +8,7 @@ import mu.KLogger
 import net.dslab.slack.api.http.filter.verification.VerifySlackRequests
 import net.dslab.slack.api.http.model.SlackInteractiveCommandInput
 import net.dslab.slack.api.http.model.SlashCommandInput
+import net.dslab.slack.api.http.model.SlashOutput
 import net.dslab.slack.service.command.SlackCommandExecutionService
 import javax.enterprise.context.ApplicationScoped
 import javax.inject.Inject
@@ -31,7 +32,7 @@ class SlackCommandResource @Inject constructor(
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
     @VerifySlackRequests
-    fun slash(form: Form): Message {
+    fun slash(form: Form): SlashOutput {
         val map = form.asMap()
         logger.debug { "Received form $map" }
         val slackCommand = objectMapper.convertValue<SlashCommandInput>(map)

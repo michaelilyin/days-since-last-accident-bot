@@ -1,6 +1,7 @@
 package net.dslab.slack.service.message.builder
 
 import com.slack.api.model.Message
+import com.slack.api.model.block.Blocks
 import com.slack.api.model.block.LayoutBlock
 import net.dslab.core.message.builder.ParagraphBuilder
 import net.dslab.slack.service.message.builder.paragraph.SlackParagraphBuilderFactory
@@ -24,10 +25,8 @@ class SlackMessageBuilderFactoryImpl @Inject constructor(
             blocks.add(paragraphBuilder.build())
         }
 
-        override fun build(): Message {
-            val message = Message()
-            message.blocks = blocks
-            return message
+        override fun build(): List<LayoutBlock> {
+            return blocks;
         }
     }
 }

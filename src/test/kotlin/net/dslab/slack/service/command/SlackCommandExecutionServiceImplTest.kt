@@ -7,6 +7,7 @@ import net.dslab.core.command.CommandExecutionService
 import net.dslab.core.command.context.CommandExecutionContext
 import net.dslab.core.command.model.KnownCommandType
 import net.dslab.slack.api.http.model.SlashCommandInput
+import net.dslab.slack.api.http.model.SlashOutput
 import net.dslab.slack.service.message.builder.SlackMessageBuilder
 import net.dslab.slack.service.message.builder.SlackMessageBuilderFactory
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -32,6 +33,7 @@ internal class SlackCommandExecutionServiceImplTest {
 
     @Test
     internal fun runOK() {
+        val expectedResult = SlashOutput(listOf())
         val command = SlashCommandInput(
             token = "token",
             teamId = "team",
@@ -50,15 +52,14 @@ internal class SlackCommandExecutionServiceImplTest {
         )
 
         val builderMock = BDDMockito.mock(SlackMessageBuilder::class.java)
-        val messageMock = BDDMockito.mock(Message::class.java)
         BDDMockito.given(slackMessageBuilderFactory.builder())
             .willReturn(builderMock)
         BDDMockito.given(builderMock.build())
-            .willReturn(messageMock)
+            .willReturn(expectedResult.blocks)
 
         val res = slackCommandExecutionService.run(command)
 
-        assertEquals(messageMock, res)
+        assertEquals(expectedResult, res)
         BDDMockito.verify(commandExecutionService)
             .run(argThat {
                 type == KnownCommandType.ENABLE_TRACKING
