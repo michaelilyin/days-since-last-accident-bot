@@ -16,12 +16,14 @@ class SlackParagraphBuilderFactoryImpl : SlackParagraphBuilderFactory {
         override fun plainText(text: String) {
             val textObject = PlainTextObject.builder()
                 .text(text)
+                .emoji(false)
                 .build()
             sectionBuilder.text(textObject)
         }
 
         override fun build(): SectionBlock {
-            return sectionBuilder.build()
+            return sectionBuilder
+                .build()
         }
     }
 }
