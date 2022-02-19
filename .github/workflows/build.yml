@@ -34,6 +34,11 @@ jobs:
         with:
           files: build/test-results/**/*.xml
 
+      - uses: codecov/codecov-action@v2
+        with:
+          flags: unittests
+          verbose: true
+
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
