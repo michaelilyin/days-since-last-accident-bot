@@ -12,9 +12,9 @@ class RawSlackInteractiveCommandContext(
 ) : CommandExecutionContext {
     override val nested = CommandNestedContextContainer()
 
-    constructor(input: SlackInteractiveCommandInput): this(
+    constructor(input: SlackInteractiveCommandInput) : this(
         teamId = input.team.id,
-        chatId = "stub",
+        chatId = TODO("must be implemented"),
         type = input.callbackId
     )
 }

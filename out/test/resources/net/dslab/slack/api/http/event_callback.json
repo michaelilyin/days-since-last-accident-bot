@@ -1,9 +1,0 @@
-{
-  "type": "event_callback",
-  "token": "token-value",
-  "event_id": "event-id",
-  "event_time": "2022-02-01T10:12:15Z",
-  "event_context": "event-context",
-  "event": {
-  }
-}

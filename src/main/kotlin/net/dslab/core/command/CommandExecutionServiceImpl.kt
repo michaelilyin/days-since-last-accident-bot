@@ -26,15 +26,10 @@ class CommandExecutionServiceImpl @Inject constructor(
         }
 
     private fun getPriority(command: Command): CommandPriority {
-        var klass = command::class
-        val priority = findForClass(klass)
+        val klass = command::class
 
-
-
-        if (priority == null) {
-            throw IllegalArgumentException("${klass.simpleName} must be annotated with @CommandPriority")
-        }
-        return priority
+        return findForClass(klass)
+            ?: throw IllegalArgumentException("${klass.simpleName} must be annotated with @CommandPriority")
     }
 
     private fun findForClass(klass: KClass<*>): CommandPriority? {

@@ -17,5 +17,4 @@ sealed interface InteractionCallbackId : CommandType {
 data class UnknownInteractionCallbackId(val value: String) : InteractionCallbackId
 
 enum class KnownInteractionCallbackId : InteractionCallbackId {
-    ADD_KEYWORD
 }
