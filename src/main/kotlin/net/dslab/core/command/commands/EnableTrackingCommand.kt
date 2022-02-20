@@ -10,6 +10,7 @@ import net.dslab.core.command.model.CommandType
 import net.dslab.core.command.model.KnownCommandType
 import net.dslab.core.vendor.ChatService
 import net.dslab.core.message.builder.MessageBuilder
+import net.dslab.core.vendor.TrackingSettingsService
 import javax.enterprise.context.ApplicationScoped
 import javax.inject.Inject
 
@@ -17,7 +18,8 @@ import javax.inject.Inject
 @CommandPriority(CommandPhase.EXECUTE)
 class EnableTrackingCommand @Inject constructor(
     private val chatService: ChatService,
-    private val logger: KLogger
+    private val logger: KLogger,
+    private val trackingSettingsService: TrackingSettingsService
 ) : Command {
 
     override fun run(
@@ -45,8 +47,18 @@ class EnableTrackingCommand @Inject constructor(
             chatService.join(context.teamId, chat.id)
         }
 
-        resultBuilder.paragraph {
-            plainText("Success")
+        val settings = trackingSettingsService.findMainSettings(context.teamId, chat.id)
+
+        if (!settings.enabled) {
+            trackingSettingsService.enableTracking(context.teamId, chat.id)
+
+            resultBuilder.paragraph {
+                plainText("Tracking has been enabled!")
+            }
+        } else {
+            resultBuilder.paragraph {
+                plainText("Tracking is already enabled!")
+            }
         }
     }
 
