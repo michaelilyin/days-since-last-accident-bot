@@ -55,10 +55,10 @@ jobs:
         uses: sonarsource/sonarcloud-github-action@master
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-#        with:
-#          args: >
-#            -Dsonar.organization=my-organization
-#            -Dsonar.projectKey=my-projectkey
+        with:
+          args: >
+            -Dsonar.organization=michaelilyin
+            -Dsonar.projectKey=michaelilyin_days-since-last-accident-bot
 
       - name: Upload artifact
         uses: actions/upload-artifact@v2
