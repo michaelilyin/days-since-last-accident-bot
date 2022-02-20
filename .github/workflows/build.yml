@@ -84,6 +84,7 @@ jobs:
     runs-on: ubuntu-latest
     needs:
       - build
+      - quality
     steps:
       - uses: actions/checkout@v2
 
