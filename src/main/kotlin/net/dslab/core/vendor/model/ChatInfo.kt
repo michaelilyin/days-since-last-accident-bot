@@ -1,4 +1,4 @@
-package net.dslab.core.command.vendor.model
+package net.dslab.core.vendor.model
 
 interface ChatInfo {
     val id: String

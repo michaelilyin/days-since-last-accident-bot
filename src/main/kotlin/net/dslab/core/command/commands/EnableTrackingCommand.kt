@@ -8,7 +8,7 @@ import net.dslab.core.command.CommandPriority
 import net.dslab.core.command.context.CommandExecutionContext
 import net.dslab.core.command.model.CommandType
 import net.dslab.core.command.model.KnownCommandType
-import net.dslab.core.command.vendor.ChatService
+import net.dslab.core.vendor.ChatService
 import net.dslab.core.message.builder.MessageBuilder
 import javax.enterprise.context.ApplicationScoped
 import javax.inject.Inject
@@ -21,28 +21,28 @@ class EnableTrackingCommand @Inject constructor(
 ) : Command {
 
     override fun run(
-        input: CommandExecutionContext,
+        context: CommandExecutionContext,
         resultBuilder: MessageBuilder<*>,
         next: CommandChain
     ) {
-        if (input.type != KnownCommandType.ENABLE_TRACKING) {
-            next.run(input, resultBuilder)
+        if (context.type != KnownCommandType.ENABLE_TRACKING) {
+            next.run(context, resultBuilder)
             return
         }
-        val chat = chatService.getChatInfo(input.teamId, input.chatId)
+        val chat = chatService.getChatInfo(context.teamId, context.chatId)
 
         if (chat == null) {
             // TODO: probably private channel, offer user to add bot at first
-            logger.info { "[Chat ${input.chatId}] was not found in [Team ${input.teamId}]" }
+            logger.info { "[Chat ${context.chatId}] was not found in [Team ${context.teamId}]" }
             resultBuilder.paragraph {
-                plainText("Chat ${input.chatId} haven't been found")
+                plainText("Chat ${context.chatId} haven't been found")
             }
             return
         }
 
         if (!chat.member) {
-            logger.info { "Is not member of [Chat ${input.chatId}] in [Team ${input.teamId}], joining" }
-            chatService.join(input.teamId, chat.id)
+            logger.info { "Is not member of [Chat ${context.chatId}] in [Team ${context.teamId}], joining" }
+            chatService.join(context.teamId, chat.id)
         }
 
         resultBuilder.paragraph {

@@ -1,12 +1,12 @@
-package net.dslab.slack.service.command.vendor
+package net.dslab.slack.service.vendor
 
 import com.slack.api.Slack
 import mu.KLogger
-import net.dslab.core.command.vendor.ChatService
-import net.dslab.core.command.vendor.model.ChatInfo
+import net.dslab.core.vendor.ChatService
+import net.dslab.core.vendor.model.ChatInfo
 import net.dslab.slack.integration.exception.SlackTextApiException
 import net.dslab.slack.service.auth.SlackAuthTokenRegistry
-import net.dslab.slack.service.command.vendor.model.SlackChatInfo
+import net.dslab.slack.service.vendor.model.SlackChatInfo
 import javax.enterprise.context.ApplicationScoped
 import javax.inject.Inject
 

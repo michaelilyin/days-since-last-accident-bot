@@ -5,10 +5,8 @@ import io.quarkus.test.junit.QuarkusTest
 import io.quarkus.test.junit.mockito.InjectMock
 import io.restassured.RestAssured.given
 import io.restassured.http.ContentType
-import net.dslab.slack.api.http.filter.verification.SlackRequestVerificationInterceptor
-import net.dslab.slack.api.http.filter.verification.VerifySlackRequests
 import net.dslab.slack.service.verification.SlackRequestVerifier
-import net.dslab.slackHttpResource
+import net.dslab.utils.slackHttpResource
 import org.hamcrest.Matchers
 import org.junit.jupiter.api.Test
 

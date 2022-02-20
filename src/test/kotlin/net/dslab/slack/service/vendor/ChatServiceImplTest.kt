@@ -1,4 +1,4 @@
-package net.dslab.slack.service.command.vendor
+package net.dslab.slack.service.vendor
 
 import com.slack.api.RequestConfigurator
 import com.slack.api.Slack
@@ -10,7 +10,7 @@ import com.slack.api.methods.response.conversations.ConversationsJoinResponse
 import com.slack.api.model.Conversation
 import io.quarkus.test.junit.QuarkusTest
 import io.quarkus.test.junit.mockito.InjectMock
-import net.dslab.core.command.vendor.ChatService
+import net.dslab.core.vendor.ChatService
 import net.dslab.slack.integration.exception.SlackTextApiException
 import net.dslab.slack.service.auth.SlackAuthTokenRegistry
 import org.junit.jupiter.api.Assertions.assertEquals

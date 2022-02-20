@@ -1,7 +1,7 @@
-package net.dslab.slack.service.command.vendor.model
+package net.dslab.slack.service.vendor.model
 
 import com.slack.api.model.Conversation
-import net.dslab.core.command.vendor.model.ChatInfo
+import net.dslab.core.vendor.model.ChatInfo
 
 data class SlackChatInfo(
     override val id: String,

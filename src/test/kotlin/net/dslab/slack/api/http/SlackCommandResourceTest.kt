@@ -11,8 +11,8 @@ import net.dslab.slack.api.http.model.SlashCommandInput
 import net.dslab.slack.api.http.model.SlashOutput
 import net.dslab.slack.service.command.SlackCommandExecutionService
 import net.dslab.slack.service.verification.SlackRequestVerifier
-import net.dslab.slackHttpResource
-import net.dslab.text
+import net.dslab.utils.slackHttpResource
+import net.dslab.utils.text
 import org.junit.jupiter.api.Test
 import org.mockito.BDDMockito
 import org.mockito.kotlin.any

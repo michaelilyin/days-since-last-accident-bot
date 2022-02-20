@@ -7,8 +7,8 @@ import net.dslab.core.message.builder.MessageBuilder
 import net.dslab.core.command.context.CommandExecutionContext
 import net.dslab.core.command.model.KnownCommandType
 import net.dslab.core.command.model.UnknownCommandType
-import net.dslab.core.command.vendor.ChatService
-import net.dslab.core.command.vendor.model.ChatInfo
+import net.dslab.core.vendor.ChatService
+import net.dslab.core.vendor.model.ChatInfo
 import org.junit.jupiter.api.Assertions.*
 
 import org.junit.jupiter.api.Test

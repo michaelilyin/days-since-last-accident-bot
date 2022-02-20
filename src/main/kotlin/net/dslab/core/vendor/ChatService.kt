@@ -1,6 +1,6 @@
-package net.dslab.core.command.vendor
+package net.dslab.core.vendor
 
-import net.dslab.core.command.vendor.model.ChatInfo
+import net.dslab.core.vendor.model.ChatInfo
 
 interface ChatService {
     fun getChatInfo(teamId: String, chatId: String): ChatInfo?

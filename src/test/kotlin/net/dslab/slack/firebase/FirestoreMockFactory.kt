@@ -6,11 +6,11 @@ import org.mockito.kotlin.mock
 import javax.enterprise.context.ApplicationScoped
 import javax.enterprise.inject.Produces
 
-@ApplicationScoped
+//@ApplicationScoped
 class FirestoreMockFactory {
-    @Mock
-    @Produces
-    @ApplicationScoped
+//    @Mock
+//    @Produces
+//    @ApplicationScoped
     fun firestoreMock(): Firestore {
         return mock()
     }

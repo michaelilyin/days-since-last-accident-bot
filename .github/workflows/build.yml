@@ -40,6 +40,26 @@ jobs:
           flags: unittests
           verbose: true
 
+      - name: Run Codacy Analysis CLI
+        uses: codacy/codacy-analysis-cli-action@master
+        with:
+          project-token: ${{ secrets.CODACY_TOKEN }}
+
+      - name: Run codacy-coverage-reporter
+        uses: codacy/codacy-coverage-reporter-action@v1
+        with:
+          project-token: ${{ secrets.CODACY_TOKEN }}
+          coverage-reports: build/reports/kover/report.xml
+
+      - name: SonarCloud Scan
+        uses: sonarsource/sonarcloud-github-action@master
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+#        with:
+#          args: >
+#            -Dsonar.organization=my-organization
+#            -Dsonar.projectKey=my-projectkey
+
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:

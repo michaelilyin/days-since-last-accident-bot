@@ -1,32 +1,21 @@
 package net.dslab.slack.firebase
 
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.google.api.core.ApiFuture
-import com.google.cloud.firestore.CollectionReference
-import com.google.cloud.firestore.DocumentReference
-import com.google.cloud.firestore.DocumentSnapshot
 import com.google.cloud.firestore.Firestore
-import com.google.cloud.firestore.SetOptions
-import com.google.cloud.firestore.WriteResult
+import io.quarkus.test.common.QuarkusTestResource
 import io.quarkus.test.junit.QuarkusTest
-import io.quarkus.test.junit.mockito.InjectMock
-import io.quarkus.test.junit.mockito.InjectSpy
-import net.dslab.firebaseResource
-import net.dslab.json
 import net.dslab.slack.dao.SlackTeamAuthDao
 import net.dslab.slack.dao.model.SlackTeamAuth
-import org.junit.jupiter.api.Assertions.*
-
+import net.dslab.utils.firebaseResource
+import net.dslab.utils.json
+import net.dslab.utils.testcontainers.FirestoreTestResource
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNotNull
+import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
-import org.mockito.BDDMockito
-import org.mockito.BDDMockito.willReturn
-import org.mockito.kotlin.any
-import org.mockito.kotlin.mock
-import org.mockito.kotlin.verify
-import java.util.concurrent.CompletableFuture
 import javax.inject.Inject
 
 @QuarkusTest
+@QuarkusTestResource(FirestoreTestResource::class)
 internal class SlackTeamAuthDaoImplTest {
 
     @Inject
@@ -39,25 +28,26 @@ internal class SlackTeamAuthDaoImplTest {
     internal fun storeAuthInfoOK() {
         val teamId = "team-id"
         val info = SlackTeamAuth("access-token")
-        val resultFuture = mock<ApiFuture<WriteResult>>()
-        val documentRef = firestore.mock("slack-team", teamId, "auth", "dslab").docRef {
-            on { set(any<SlackTeamAuth>(), any()) }.thenReturn(resultFuture)
-        }
 
         slackTeamAuthDao.storeAuthInfo(teamId, info)
 
-        verify(documentRef).set(info, SetOptions.merge())
+        val actual = firestore.collection("slack-team")
+            .document(teamId)
+            .collection("auth")
+            .document("dslab")
+            .get().get()
+        assertEquals("access-token", actual.get("accessToken"))
     }
 
     @Test
     internal fun getAuthInfoOK() {
         val teamId = "team-id"
         val teamAuth = firebaseResource("slack_team_auth.json").json()
-
-        firestore.mock("slack-team", teamId, "auth", "dslab").docSnapshot {
-            on { it.exists() }.thenReturn(true)
-            on { it.data }.thenReturn(teamAuth)
-        }
+        firestore.collection("slack-team")
+            .document(teamId)
+            .collection("auth")
+            .document("dslab")
+            .create(teamAuth).get()
 
         val info = slackTeamAuthDao.getAuthInfo(teamId)
 
@@ -67,10 +57,7 @@ internal class SlackTeamAuthDaoImplTest {
 
     @Test
     internal fun getAuthInfoNoK() {
-        val teamId = "team-id"
-        firestore.mock("slack-team", teamId, "auth", "dslab").docSnapshot {
-            on { it.exists() }.thenReturn(false)
-        }
+        val teamId = "team-id-not-exists"
 
         val info = slackTeamAuthDao.getAuthInfo(teamId)
 
