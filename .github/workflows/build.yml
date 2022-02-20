@@ -2,6 +2,10 @@ name: Java CI
 
 on: [ push ]
 
+concurrency:
+  group: environment-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   quality:
     runs-on: ubuntu-latest
@@ -10,16 +14,6 @@ jobs:
         uses: codacy/codacy-analysis-cli-action@master
         with:
           project-token: ${{ secrets.CODACY_TOKEN }}
-
-      - name: SonarCloud Scan
-        uses: sonarsource/sonarcloud-github-action@master
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN  }}
-        with:
-          args: >
-            -Dsonar.organization=michaelilyin
-            -Dsonar.projectKey=michaelilyin_days-since-last-accident-bot
 
   build:
     runs-on: ubuntu-latest
@@ -64,6 +58,19 @@ jobs:
           project-token: ${{ secrets.CODACY_TOKEN }}
           coverage-reports: build/reports/kover/report.xml
 
+      - name: SonarCloud Scan
+        uses: sonarsource/sonarcloud-github-action@master
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN  }}
+        with:
+          args: >
+            -Dsonar.organization=michaelilyin
+            -Dsonar.projectKey=michaelilyin_days-since-last-accident-bot
+            -Dsonar.sources=src/main
+            -Dsonar.tests=src/test
+            -Dsonar.coverage.jacoco.xmlReportPaths=build/reports/kover/report.xml
+
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
@@ -72,13 +79,6 @@ jobs:
             build/quarkus-app
             build/*-runner
             build/quarkus-artifact.properties
-
-      - name: Upload artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: dist
-          path: |
-            build/reports/kover
 
   publish:
     runs-on: ubuntu-latest
