@@ -1,4 +1,22 @@
-# days-since-last-accident-bot Project
+# Days Since Last Accident Bot
+
+<a href="https://www.codacy.com/gh/michaelilyin/days-since-last-accident-bot/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=michaelilyin/days-since-last-accident-bot&amp;utm_campaign=Badge_Grade"><img src="https://app.codacy.com/project/badge/Grade/9317760d14be43e6a0b12d205b715d53"/></a>
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=michaelilyin_days-since-last-accident-bot&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=michaelilyin_days-since-last-accident-bot)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=michaelilyin_days-since-last-accident-bot&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=michaelilyin_days-since-last-accident-bot)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=michaelilyin_days-since-last-accident-bot&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=michaelilyin_days-since-last-accident-bot)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=michaelilyin_days-since-last-accident-bot&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=michaelilyin_days-since-last-accident-bot)
+
+[![Codacy Badge](https://app.codacy.com/project/badge/Coverage/9317760d14be43e6a0b12d205b715d53)](https://www.codacy.com/gh/michaelilyin/days-since-last-accident-bot/dashboard?utm_source=github.com&utm_medium=referral&utm_content=michaelilyin/days-since-last-accident-bot&utm_campaign=Badge_Coverage)
+[![codecov](https://codecov.io/gh/michaelilyin/days-since-last-accident-bot/branch/master/graph/badge.svg?token=158vAvL71x)](https://codecov.io/gh/michaelilyin/days-since-last-accident-bot)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=michaelilyin_days-since-last-accident-bot&metric=coverage)](https://sonarcloud.io/summary/new_code?id=michaelilyin_days-since-last-accident-bot)
+
+[![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=michaelilyin_days-since-last-accident-bot&metric=sqale_index)](https://sonarcloud.io/summary/new_code?id=michaelilyin_days-since-last-accident-bot)
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=michaelilyin_days-since-last-accident-bot&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=michaelilyin_days-since-last-accident-bot)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=michaelilyin_days-since-last-accident-bot&metric=bugs)](https://sonarcloud.io/summary/new_code?id=michaelilyin_days-since-last-accident-bot)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=michaelilyin_days-since-last-accident-bot&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=michaelilyin_days-since-last-accident-bot)
+[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=michaelilyin_days-since-last-accident-bot&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=michaelilyin_days-since-last-accident-bot)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=michaelilyin_days-since-last-accident-bot&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=michaelilyin_days-since-last-accident-bot)
+
 
 This project uses Quarkus, the Supersonic Subatomic Java Framework.
 

@@ -1,8 +1,9 @@
 package net.dslab.slack.dao
 
-import net.dslab.slack.dao.model.SlackTeamAuth
+import com.google.cloud.firestore.Transaction
+import net.dslab.slack.dao.model.SlackTeamAuthEntity
 
 interface SlackTeamAuthDao {
-    fun storeAuthInfo(teamId: String, data: SlackTeamAuth)
-    fun getAuthInfo(teamId: String): SlackTeamAuth?
+    fun storeAuthInfo(t: Transaction, teamId: String, data: SlackTeamAuthEntity)
+    fun getAuthInfo(t: Transaction, teamId: String): SlackTeamAuthEntity?
 }

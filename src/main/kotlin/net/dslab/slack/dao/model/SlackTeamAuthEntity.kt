@@ -1,6 +1,6 @@
 package net.dslab.slack.dao.model
 
-data class SlackTeamAuth(
+data class SlackTeamAuthEntity(
     val accessToken: String
 ) {
 }

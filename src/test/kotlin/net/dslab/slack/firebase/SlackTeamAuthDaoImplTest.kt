@@ -4,7 +4,7 @@ import com.google.cloud.firestore.Firestore
 import io.quarkus.test.common.QuarkusTestResource
 import io.quarkus.test.junit.QuarkusTest
 import net.dslab.slack.dao.SlackTeamAuthDao
-import net.dslab.slack.dao.model.SlackTeamAuth
+import net.dslab.slack.dao.model.SlackTeamAuthEntity
 import net.dslab.utils.firebaseResource
 import net.dslab.utils.json
 import net.dslab.utils.testcontainers.FirestoreTestResource
@@ -27,7 +27,7 @@ internal class SlackTeamAuthDaoImplTest {
     @Test
     internal fun storeAuthInfoOK() {
         val teamId = "team-id"
-        val info = SlackTeamAuth("access-token")
+        val info = SlackTeamAuthEntity("access-token")
 
         slackTeamAuthDao.storeAuthInfo(teamId, info)
 

@@ -48,6 +48,8 @@ sourceSets.test {
 }
 
 dependencies {
+    implementation("jakarta.transaction:jakarta.transaction-api")
+    implementation("io.quarkus:quarkus-narayana-jta")
     implementation("io.quarkus:quarkus-container-image-docker")
 //    implementation("io.quarkus:quarkus-hibernate-orm-panache-kotlin")
     implementation("io.quarkus:quarkus-rest-client")

@@ -9,7 +9,7 @@ import io.quarkus.test.junit.QuarkusTest
 import io.quarkus.test.junit.mockito.InjectMock
 import net.dslab.common.exception.BotException
 import net.dslab.slack.dao.SlackTeamAuthDao
-import net.dslab.slack.dao.model.SlackTeamAuth
+import net.dslab.slack.dao.model.SlackTeamAuthEntity
 import net.dslab.slack.integration.exception.SlackTextApiException
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
@@ -84,7 +84,7 @@ internal class SlackAuthTokenRegistryImplTest {
         BDDMockito.verify(requestBuilderMock).clientId("test-client")
         BDDMockito.verify(requestBuilderMock).clientSecret("test-secret")
         BDDMockito.verify(requestBuilderMock).redirectUri("http://localhost")
-        BDDMockito.verify(slackTeamAuthDao).storeAuthInfo(teamId, SlackTeamAuth(accessToken))
+        BDDMockito.verify(slackTeamAuthDao).storeAuthInfo(teamId, SlackTeamAuthEntity(accessToken))
         assertEquals(teamId, res.teamId)
         assertEquals(botUserId, res.botUserId)
     }
@@ -113,7 +113,7 @@ internal class SlackAuthTokenRegistryImplTest {
     fun getAuthTokenOK() {
         val teamId = "team-id"
 
-        val auth = SlackTeamAuth("access-token")
+        val auth = SlackTeamAuthEntity("access-token")
         BDDMockito.given(slackTeamAuthDao.getAuthInfo(teamId))
             .willReturn(auth)
         val res = slackAuthTokenRegistry.getAuthToken(teamId)
